@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "766545645176",
+    "project_id": "stupidgamego2",
+    "storage_bucket": "stupidgamego2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766545645176:android:84bb552f9421c861d5e78d",
+        "android_client_info": {
+          "package_name": "go.deyu.stupidgame2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766545645176-5pqvgfu2qh3930g26tbdsn1soctq8kra.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "go.deyu.stupidgame2",
+            "certificate_hash": "1614b6fc2e3953ee0a5fc35a0cdae3eafb08179d"
+          }
+        },
+        {
+          "client_id": "766545645176-mfdu27429bt4jj72g7onu1n17vpt3puh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9ZerwPG1SGnjL-7D-1w6HVb46tvZh-Kk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766545645176-mfdu27429bt4jj72g7onu1n17vpt3puh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
