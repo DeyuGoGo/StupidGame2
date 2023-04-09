@@ -1,4 +1,4 @@
-package go.deyu.stupidgame2.ui.login
+package go.deyu.stupidgame2.presentation.login
 
 import android.content.Intent
 import androidx.activity.ComponentActivity

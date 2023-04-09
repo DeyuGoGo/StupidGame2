@@ -1,4 +1,4 @@
-package go.deyu.stupidgame2.ui.theme
+package go.deyu.stupidgame2.presentation.theme
 
 import android.app.Activity
 import android.os.Build

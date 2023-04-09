@@ -1,4 +1,4 @@
-package go.deyu.stupidgame2.ui.login
+package go.deyu.stupidgame2.presentation.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
