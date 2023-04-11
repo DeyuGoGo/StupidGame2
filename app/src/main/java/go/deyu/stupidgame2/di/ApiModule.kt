@@ -38,7 +38,6 @@ object ApiModule {
         return Interceptor { chain ->
             val originalRequest = chain.request()
             val newRequest = originalRequest.newBuilder()
-                .header("Authorization", "Bearer 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")
                 .build()
             chain.proceed(newRequest)
         }
