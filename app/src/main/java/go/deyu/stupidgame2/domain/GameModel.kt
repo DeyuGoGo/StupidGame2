@@ -1,78 +1,33 @@
 package go.deyu.stupidgame2.domain
 
-import go.deyu.stupidgame2.data.model.Answer
-import go.deyu.stupidgame2.data.model.Clue
-import go.deyu.stupidgame2.data.model.GuessResult
-import go.deyu.stupidgame2.data.model.Theme
-import go.deyu.stupidgame2.data.repoository.GameRepository
-import go.deyu.stupidgame2.domain.usecase.AskQuestionUseCase
-import go.deyu.stupidgame2.domain.usecase.FetchClueUseCase
-import go.deyu.stupidgame2.domain.usecase.FetchThemeUseCase
-import go.deyu.stupidgame2.domain.usecase.GuessMurdererUseCase
+import com.google.gson.Gson
+import com.orhanobut.logger.Logger
+import go.deyu.stupidgame2.data.model.*
+import go.deyu.stupidgame2.domain.usecase.CreateNewGameUseCase
 
 class GameModel(
-    private val gameRepository: GameRepository,
-    private val fetchThemeUseCase: FetchThemeUseCase,
-    private val askQuestionUseCase: AskQuestionUseCase,
-    private val fetchClueUseCase: FetchClueUseCase,
-    private val guessMurdererUseCase: GuessMurdererUseCase
+    private val createNewGameUseCase: CreateNewGameUseCase,
 ) {
-    private var theme: Theme? = null
-    private var cluesCollected: Int = 0
-    private var clues: MutableList<Clue> = ArrayList()
-
-    suspend fun fetchTheme() {
-        val result = fetchThemeUseCase()
-        if (result.isSuccess) {
-            theme = result.getOrNull()
-        } else {
-            // handle error
-        }
-    }
-
-    suspend fun askQuestion(question: String): Answer? {
-        val result = askQuestionUseCase(question)
-        return if (result.isSuccess) {
-            result.getOrNull()
-        } else {
-            // handle error
+    suspend fun requestNewGameData(): GameData? {
+        val result = createNewGameUseCase()
+        Logger.e("result = $result")
+        return try {
+            val gameData = result.getOrNull()?.choices?.last()?.message?.content?.let {
+                Gson().fromJson(it, GameData::class.java)
+            }
+            Logger.e("gameData = $gameData")
+            gameData
+        } catch (e: Exception) {
+            Logger.e("e = $e")
             null
         }
     }
 
-    suspend fun fetchClue(): Clue? {
-        if (cluesCollected >= 3) {
-            return null
-        }
-
-        val result = fetchClueUseCase()
-        return if (result.isSuccess) {
-            val clue = result.getOrNull()
-            clue?:return null
-            clues.add(clue)
-            cluesCollected++
-            clue
-        } else {
-            // handle error
-            null
-        }
-    }
-
-
-    suspend fun guessMurderer(murderer: String): GuessResult? {
-        val result = guessMurdererUseCase(murderer)
-        return if (result.isSuccess) {
-            result.getOrNull()
-        } else {
-            // handle error
-            null
-        }
-    }
 }
 
 data class GameState(
-    val theme: Theme? = null,
-    val clueCount: Int = 0,
-    val clues: List<Clue> = listOf(),
-    val guesses: Int = 0
+    val isLoading: Boolean = false,
+    val guesses: Int = 0,
+    val gameData: GameData?  = null,
+    val guessResult: GuessResult? = null
 )

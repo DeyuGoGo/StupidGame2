@@ -11,6 +11,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import go.deyu.stupidgame2.R
+import go.deyu.stupidgame2.data.api.ChatApi
+import go.deyu.stupidgame2.data.repoository.GameRepository
+import go.deyu.stupidgame2.domain.GameModel
+import go.deyu.stupidgame2.domain.usecase.CreateNewGameUseCase
 import javax.inject.Singleton
 
 @Module
@@ -31,5 +35,27 @@ object AppModule {
             .requestEmail()
             .build()
         return GoogleSignIn.getClient(context, gso)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideGameRepository(gameApi: ChatApi): GameRepository {
+        return GameRepository(gameApi)
+    }
+
+    @Provides
+    fun provideAskQuestionUseCase(gameRepository: GameRepository): CreateNewGameUseCase {
+        return CreateNewGameUseCase(gameRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGameModel(
+        createNewGameUseCase: CreateNewGameUseCase,
+    ): GameModel {
+        return GameModel(
+            createNewGameUseCase
+        )
     }
 }
