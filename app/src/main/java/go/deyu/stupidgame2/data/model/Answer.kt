@@ -1,3 +1,6 @@
 package go.deyu.stupidgame2.data.model
 
-data class Answer(val message: String)
+data class Answer(
+    val desc: String,
+    val suspect: Suspect
+)

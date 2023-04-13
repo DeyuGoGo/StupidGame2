@@ -85,3 +85,4 @@ lint/tmp/
 # lint/reports/
 /.idea/compiler.xml
 /gradle/wrapper/gradle-wrapper.jar
+/app/src/main/java/go/deyu/stupidgame2/config/
