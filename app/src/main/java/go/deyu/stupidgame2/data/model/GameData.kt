@@ -5,5 +5,6 @@ data class GameData(
     val suspects: List<Suspect>,
     val tell_user: String,
     val cubes: List<String>,
+    val showCube: Int = 0,
     val answer: Answer
 )

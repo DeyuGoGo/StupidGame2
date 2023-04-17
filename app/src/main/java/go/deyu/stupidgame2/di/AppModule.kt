@@ -14,7 +14,7 @@ import go.deyu.stupidgame2.R
 import go.deyu.stupidgame2.data.api.ChatApi
 import go.deyu.stupidgame2.data.repoository.GameRepository
 import go.deyu.stupidgame2.domain.GameModel
-import go.deyu.stupidgame2.domain.usecase.CreateNewGameUseCase
+import go.deyu.stupidgame2.domain.usecase.RequestChatUseCase
 import javax.inject.Singleton
 
 @Module
@@ -45,17 +45,17 @@ object AppModule {
     }
 
     @Provides
-    fun provideAskQuestionUseCase(gameRepository: GameRepository): CreateNewGameUseCase {
-        return CreateNewGameUseCase(gameRepository)
+    fun provideAskQuestionUseCase(gameRepository: GameRepository): RequestChatUseCase {
+        return RequestChatUseCase(gameRepository)
     }
 
     @Provides
     @Singleton
     fun provideGameModel(
-        createNewGameUseCase: CreateNewGameUseCase,
+        requestChatUseCase: RequestChatUseCase,
     ): GameModel {
         return GameModel(
-            createNewGameUseCase
+            requestChatUseCase
         )
     }
 }

@@ -17,6 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GameViewModel @Inject constructor(private val gameModel: GameModel) : ViewModel() {
+
+    val shouldCloseApp = MutableStateFlow(false)
+
     private val _state = MutableStateFlow(GameState())
     val state: StateFlow<GameState> = _state
 
@@ -27,34 +30,50 @@ class GameViewModel @Inject constructor(private val gameModel: GameModel) : View
         viewModelScope.launch {
             _intent.consumeAsFlow().collect { intent ->
                 when (intent) {
+                    GameIntent.GoHome -> {
+                        goHome()
+                    }
                     GameIntent.NewGame -> newGame()
                     is GameIntent.GuessSuspect -> guessSuspect(suspect = intent.suspect)
                     GameIntent.ShowNextClue -> showNextClue() // 新增的 Intent 處理
-                    else -> {}
+                    GameIntent.FinishGame -> {
+                        shouldCloseApp.emit(true)
+                    }
                 }
             }
         }
     }
 
     private fun showNextClue() {
-        _state.value = state.value.copy(
-            screenState = GameScreenState.InProgress(
-                gameData = state.value.screenState.gameData!!,
-                clue = state.value.screenState.clue + 1
-            )
-        )
+        when (val screenState = state.value.screenState) {
+            is GameScreenState.InProgress -> {
+                if (screenState.gameData.showCube >= screenState.gameData.cubes.size) {
+                    return
+                }
+                _state.value = state.value.copy(
+                    screenState = GameScreenState.InProgress(
+                        gameData = screenState.gameData.copy(showCube = screenState.gameData.showCube + 1)
+                    )
+                )
+            }
+            else -> {
+            }
+        }
+
     }
 
     private suspend fun guessSuspect(suspect: Suspect) {
-        val guessResult = gameModel.requestGameOverMessage(suspect)
+        val screenState = state.value.screenState
+        if (screenState !is GameScreenState.InProgress) return
         _state.value = state.value.copy(isLoading = true)
-
+        val guessResult = gameModel.requestGameOverMessage(suspect)
+        val isCorrect = suspect == screenState.gameData.answer.suspect
         _state.value = state.value.copy(
             isLoading = false,
             screenState = GameScreenState.GameOver(
                 guessResult ?: GuessResult(
-                    isCorrect = false,
-                    message = "Error"
+                    isCorrect = isCorrect,
+                    message = if (isCorrect) "猜對了" else "猜錯了"
                 )
             )
         )
@@ -86,6 +105,15 @@ class GameViewModel @Inject constructor(private val gameModel: GameModel) : View
                 screenState = GameScreenState.InProgress(this)
             )
         }
+    }
+
+    private fun goHome() {
+        gameModel.reset()
+        _state.value = state.value.copy(
+            isLoading = false,
+            screenState = GameScreenState.Entrance
+        )
+        return
     }
 
 

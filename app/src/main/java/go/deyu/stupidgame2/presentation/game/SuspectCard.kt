@@ -14,9 +14,9 @@ import androidx.compose.ui.unit.dp
 import go.deyu.stupidgame2.data.model.Suspect
 
 @Composable
-fun SuspectCard(suspect: Suspect, onClick: () -> Unit) {
+fun SuspectCard(suspect: Suspect, onClick: () -> Unit, modifier: Modifier) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
             .clip(RoundedCornerShape(8.dp))

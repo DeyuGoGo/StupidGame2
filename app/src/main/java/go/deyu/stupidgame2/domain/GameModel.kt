@@ -3,23 +3,24 @@ package go.deyu.stupidgame2.domain
 import com.google.gson.Gson
 import com.orhanobut.logger.Logger
 import go.deyu.stupidgame2.data.model.*
-import go.deyu.stupidgame2.domain.usecase.CreateNewGameUseCase
+import go.deyu.stupidgame2.domain.usecase.RequestChatUseCase
 import go.deyu.stupidgame2.presentation.game.GameScreenState
 
 class GameModel(
-    private val createNewGameUseCase: CreateNewGameUseCase,
+    private val requestChatUseCase: RequestChatUseCase,
 ) {
 
     private val _messageList = mutableListOf<Message>()
-    val messageList: List<Message> = _messageList
+    private val messageList: List<Message> = _messageList
 
     fun reset() {
         _messageList.clear()
     }
 
     suspend fun requestNewGameData(): GameData? {
+        reset()
         val startMessage = MessageBook.getNewGameMessage()
-        val result = createNewGameUseCase(startMessage)
+        val result = requestChatUseCase(listOf(startMessage))
         Logger.e("result = $result")
         return try {
             val newGameMessage = result.getOrNull()?.choices?.last()?.message
@@ -36,24 +37,21 @@ class GameModel(
         }
     }
 
-    suspend fun requestGameOverMessage(suspect: Suspect): GuessResult? {
+    suspend fun requestGameOverMessage(suspect: Suspect ): GuessResult? {
         val overMessage = MessageBook.getGuessMessage(suspect.name)
-        val result = createNewGameUseCase(overMessage)
-        Logger.e("result = $result")
+        _messageList.add(overMessage)
+        val result = requestChatUseCase(messageList)
         return try {
-            val newGameMessage = result.getOrNull()?.choices?.last()?.message
+            val message = result.getOrNull()?.choices?.last()?.message!!.content
             GuessResult(
-                isCorrect = true,
-                message = newGameMessage!!.content
+                isCorrect = message.contains("猜對"),
+                message = message
             )
         } catch (e: Exception) {
             Logger.e("e = $e")
             null
         }
     }
-
-
-
 }
 
 data class GameState(
