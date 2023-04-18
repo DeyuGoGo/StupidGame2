@@ -4,10 +4,12 @@ import com.google.gson.Gson
 import com.orhanobut.logger.Logger
 import go.deyu.stupidgame2.data.model.*
 import go.deyu.stupidgame2.domain.usecase.RequestChatUseCase
+import go.deyu.stupidgame2.domain.usecase.RequestImageUseCase
 import go.deyu.stupidgame2.presentation.game.GameScreenState
 
 class GameModel(
     private val requestChatUseCase: RequestChatUseCase,
+    private val requestImageUseCase: RequestImageUseCase
 ) {
 
     private val _messageList = mutableListOf<Message>()
@@ -21,7 +23,6 @@ class GameModel(
         reset()
         val startMessage = MessageBook.getNewGameMessage()
         val result = requestChatUseCase(listOf(startMessage))
-        Logger.e("result = $result")
         return try {
             val newGameMessage = result.getOrNull()?.choices?.last()?.message
             val gameData = newGameMessage!!.content.let {

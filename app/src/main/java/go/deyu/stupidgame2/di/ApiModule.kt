@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import go.deyu.stupidgame2.config.ApiKey
+import go.deyu.stupidgame2.config.NewApiKey
 import go.deyu.stupidgame2.data.api.ChatApi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -39,7 +39,7 @@ object ApiModule {
         return Interceptor { chain ->
             val originalRequest = chain.request()
             val newRequest = originalRequest.newBuilder()
-                .header("Authorization", ApiKey.OpenAiKey)
+                .header("Authorization", NewApiKey.OpenAiKey)
                 .build()
             chain.proceed(newRequest)
         }

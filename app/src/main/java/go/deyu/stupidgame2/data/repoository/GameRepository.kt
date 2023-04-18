@@ -2,15 +2,16 @@ package go.deyu.stupidgame2.data.repoository
 
 import go.deyu.stupidgame2.data.api.ChatApi
 import go.deyu.stupidgame2.data.api.request.ChatRequest
+import go.deyu.stupidgame2.data.api.request.ImageRequest
 import go.deyu.stupidgame2.data.model.Message
 import go.deyu.stupidgame2.data.api.response.ChatResponse
 import retrofit2.Response
 
 class GameRepository(private val apiService: ChatApi) {
 
-    suspend fun requestNewGameData(message: Message): Result<ChatResponse> {
-        val response =
-            apiService.fetchChat(ChatRequest(model = "gpt-3.5-turbo", messages = listOf(message)))
+
+    suspend fun requestImage(prompt :String): Result<Any> {
+        val response = apiService.fetchImage(ImageRequest(prompt = "大奶美女"))
         return handleResponse(response)
     }
 

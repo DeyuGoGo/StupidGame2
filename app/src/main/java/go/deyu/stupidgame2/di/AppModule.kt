@@ -15,6 +15,7 @@ import go.deyu.stupidgame2.data.api.ChatApi
 import go.deyu.stupidgame2.data.repoository.GameRepository
 import go.deyu.stupidgame2.domain.GameModel
 import go.deyu.stupidgame2.domain.usecase.RequestChatUseCase
+import go.deyu.stupidgame2.domain.usecase.RequestImageUseCase
 import javax.inject.Singleton
 
 @Module
@@ -48,14 +49,20 @@ object AppModule {
     fun provideAskQuestionUseCase(gameRepository: GameRepository): RequestChatUseCase {
         return RequestChatUseCase(gameRepository)
     }
+    @Provides
+    fun provideImageUseCase(gameRepository: GameRepository): RequestImageUseCase {
+        return RequestImageUseCase(gameRepository)
+    }
 
     @Provides
     @Singleton
     fun provideGameModel(
         requestChatUseCase: RequestChatUseCase,
+        requestImageUseCase: RequestImageUseCase
     ): GameModel {
         return GameModel(
-            requestChatUseCase
+            requestChatUseCase,
+            requestImageUseCase
         )
     }
 }
