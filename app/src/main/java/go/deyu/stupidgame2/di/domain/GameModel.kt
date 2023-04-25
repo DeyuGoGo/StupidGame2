@@ -1,10 +1,10 @@
-package go.deyu.stupidgame2.domain
+package go.deyu.stupidgame2.di.domain
 
 import com.google.gson.Gson
 import com.orhanobut.logger.Logger
 import go.deyu.stupidgame2.data.model.*
-import go.deyu.stupidgame2.domain.usecase.RequestChatUseCase
-import go.deyu.stupidgame2.domain.usecase.RequestImageUseCase
+import go.deyu.stupidgame2.di.domain.usecase.RequestChatUseCase
+import go.deyu.stupidgame2.di.domain.usecase.RequestImageUseCase
 import go.deyu.stupidgame2.presentation.game.GameScreenState
 
 class GameModel(

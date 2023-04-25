@@ -9,7 +9,6 @@ import retrofit2.Response
 
 class GameRepository(private val apiService: ChatApi) {
 
-
     suspend fun requestImage(prompt :String): Result<Any> {
         val response = apiService.fetchImage(ImageRequest(prompt = "大奶美女"))
         return handleResponse(response)

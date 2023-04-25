@@ -2,8 +2,7 @@ package go.deyu.stupidgame2.presentation.game
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
@@ -18,7 +17,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import go.deyu.stupidgame2.presentation.theme.StupidGame2Theme
+import go.deyu.stupidgame2.presentation.util.AdMobBanner
 import go.deyu.stupidgame2.presentation.util.ProgressAnimation
+import java.util.Queue
 
 @Composable
 fun GameScreen(gameViewModel: GameViewModel) {
@@ -39,19 +40,30 @@ fun GameScreen(gameViewModel: GameViewModel) {
                 enter = fadeIn() + slideInHorizontally(),
                 exit = fadeOut() + slideOutHorizontally(targetOffsetX = { it / 2 }),
             ) {
-                when (val screenState = gameState.screenState) {
-                    is GameScreenState.Entrance -> GameEntranceScreen(gameViewModel)
-                    is GameScreenState.InProgress -> InProgressGameScreen(
-                        gameViewModel,
-                        screenState.gameData
-                    )
-                    is GameScreenState.GameOver -> GameOverScreen(
-                        gameViewModel,
-                        screenState.guessResult
-                    )
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Box(modifier = Modifier.weight(1f, true)) {
+                        when (val screenState = gameState.screenState) {
+                            is GameScreenState.Entrance -> GameEntranceScreen(gameViewModel)
+                            is GameScreenState.InProgress -> InProgressGameScreen(
+                                gameViewModel,
+                                screenState.gameData
+                            )
+                            is GameScreenState.GameOver -> GameOverScreen(
+                                gameViewModel,
+                                screenState.guessResult
+                            )
+
+                        }
+                    }
+                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+                        AdMobBanner(adUnitId = "ca-app-pub-9829418644772076/4332365129")
+                    }
                 }
             }
-
             AnimatedVisibility(
                 visible = (gameState.isLoading),
                 enter = fadeIn() + slideInHorizontally(),
@@ -63,6 +75,7 @@ fun GameScreen(gameViewModel: GameViewModel) {
                 )
             }
         }
-    }
 
+
+    }
 }

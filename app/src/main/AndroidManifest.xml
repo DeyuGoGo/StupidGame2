@@ -14,6 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StupidGame2"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9829418644772076~2282299745"/>
+
         <activity
             android:name=".presentation.login.LoginActivity"
             android:exported="true"
@@ -23,7 +28,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.StupidGame2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

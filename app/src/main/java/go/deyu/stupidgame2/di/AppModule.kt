@@ -13,9 +13,9 @@ import dagger.hilt.components.SingletonComponent
 import go.deyu.stupidgame2.R
 import go.deyu.stupidgame2.data.api.ChatApi
 import go.deyu.stupidgame2.data.repoository.GameRepository
-import go.deyu.stupidgame2.domain.GameModel
-import go.deyu.stupidgame2.domain.usecase.RequestChatUseCase
-import go.deyu.stupidgame2.domain.usecase.RequestImageUseCase
+import go.deyu.stupidgame2.di.domain.GameModel
+import go.deyu.stupidgame2.di.domain.usecase.RequestChatUseCase
+import go.deyu.stupidgame2.di.domain.usecase.RequestImageUseCase
 import javax.inject.Singleton
 
 @Module
