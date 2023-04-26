@@ -1,5 +1,6 @@
 package go.deyu.stupidgame2.data.model
 
+@kotlinx.serialization.Serializable
 data class Message(
     val content: String,
     val role: String
@@ -60,10 +61,6 @@ object MessageBook {
         role = "user"
     )
 
-    fun getCubeMessage() = Message(
-        content = "請給我一個線索",
-        role = "user"
-    )
 
     fun getGuessMessage(name: String) = Message(
         content = "我猜測兇手是 $name",

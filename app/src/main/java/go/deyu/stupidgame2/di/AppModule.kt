@@ -13,9 +13,10 @@ import dagger.hilt.components.SingletonComponent
 import go.deyu.stupidgame2.R
 import go.deyu.stupidgame2.data.api.ChatApi
 import go.deyu.stupidgame2.data.repoository.GameRepository
-import go.deyu.stupidgame2.di.domain.GameModel
-import go.deyu.stupidgame2.di.domain.usecase.RequestChatUseCase
-import go.deyu.stupidgame2.di.domain.usecase.RequestImageUseCase
+import go.deyu.stupidgame2.domain.GameModel
+import go.deyu.stupidgame2.domain.usecase.RequestChatUseCase
+import go.deyu.stupidgame2.domain.usecase.RequestImageUseCase
+import go.deyu.stupidgame2.domain.usecase.RequestNewGameUseCase
 import javax.inject.Singleton
 
 @Module
@@ -55,14 +56,21 @@ object AppModule {
     }
 
     @Provides
+    fun provideRequestNewGameUseCase(): RequestNewGameUseCase {
+        return RequestNewGameUseCase()
+    }
+
+    @Provides
     @Singleton
     fun provideGameModel(
         requestChatUseCase: RequestChatUseCase,
-        requestImageUseCase: RequestImageUseCase
+        requestImageUseCase: RequestImageUseCase,
+        requestNewGameUseCase: RequestNewGameUseCase
     ): GameModel {
         return GameModel(
             requestChatUseCase,
-            requestImageUseCase
+            requestImageUseCase,
+            requestNewGameUseCase
         )
     }
 }

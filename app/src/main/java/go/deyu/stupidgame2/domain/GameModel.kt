@@ -1,15 +1,17 @@
-package go.deyu.stupidgame2.di.domain
+package go.deyu.stupidgame2.domain
 
 import com.google.gson.Gson
 import com.orhanobut.logger.Logger
 import go.deyu.stupidgame2.data.model.*
-import go.deyu.stupidgame2.di.domain.usecase.RequestChatUseCase
-import go.deyu.stupidgame2.di.domain.usecase.RequestImageUseCase
+import go.deyu.stupidgame2.domain.usecase.RequestChatUseCase
+import go.deyu.stupidgame2.domain.usecase.RequestImageUseCase
+import go.deyu.stupidgame2.domain.usecase.RequestNewGameUseCase
 import go.deyu.stupidgame2.presentation.game.GameScreenState
 
 class GameModel(
     private val requestChatUseCase: RequestChatUseCase,
-    private val requestImageUseCase: RequestImageUseCase
+    private val requestImageUseCase: RequestImageUseCase,
+    private val requestNewGameUseCase: RequestNewGameUseCase
 ) {
 
     private val _messageList = mutableListOf<Message>()
@@ -22,15 +24,11 @@ class GameModel(
     suspend fun requestNewGameData(): GameData? {
         reset()
         val startMessage = MessageBook.getNewGameMessage()
-        val result = requestChatUseCase(listOf(startMessage))
         return try {
-            val newGameMessage = result.getOrNull()?.choices?.last()?.message
-            val gameData = newGameMessage!!.content.let {
-                Gson().fromJson(it, GameData::class.java)
-            }
+            val gameData = requestNewGameUseCase()
             Logger.e("gameData = $gameData")
             _messageList.add(startMessage)
-            _messageList.add(newGameMessage)
+            _messageList.add(Message(content = Gson().toJson(gameData) , role = "assistant"))
             gameData
         } catch (e: Exception) {
             Logger.e("e = $e")

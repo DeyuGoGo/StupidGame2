@@ -1,5 +1,6 @@
 package go.deyu.stupidgame2.data.model
 
+@kotlinx.serialization.Serializable
 data class GameData(
     val story: String,
     val suspects: List<Suspect>,

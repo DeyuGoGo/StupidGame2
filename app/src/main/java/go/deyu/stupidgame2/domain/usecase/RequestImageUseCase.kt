@@ -1,7 +1,5 @@
-package go.deyu.stupidgame2.di.domain.usecase
+package go.deyu.stupidgame2.domain.usecase
 
-import go.deyu.stupidgame2.data.api.response.ChatResponse
-import go.deyu.stupidgame2.data.model.Message
 import go.deyu.stupidgame2.data.repoository.GameRepository
 
 class RequestImageUseCase(private val gameRepository: GameRepository) {

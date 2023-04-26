@@ -1,4 +1,4 @@
-package go.deyu.stupidgame2.di.domain.usecase
+package go.deyu.stupidgame2.domain.usecase
 
 import go.deyu.stupidgame2.data.api.response.ChatResponse
 import go.deyu.stupidgame2.data.model.Message

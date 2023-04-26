@@ -6,13 +6,16 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.lifecycleScope
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
-import com.google.android.gms.ads.initialization.InitializationStatus
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.AndroidEntryPoint
+import go.deyu.stupidgame2.domain.usecase.CreateGameWorker
 import go.deyu.stupidgame2.presentation.game.GameScreen
 import go.deyu.stupidgame2.presentation.game.GameViewModel
 import go.deyu.stupidgame2.presentation.theme.StupidGame2Theme
@@ -53,5 +56,17 @@ class MainActivity : ComponentActivity() {
                 GameScreen(gameViewModel = gameViewModel)
             }
         }
+        createGame()
+    }
+    private fun createGame (){
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val workRequest = OneTimeWorkRequestBuilder<CreateGameWorker>()
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(this).enqueue(workRequest)
     }
 }

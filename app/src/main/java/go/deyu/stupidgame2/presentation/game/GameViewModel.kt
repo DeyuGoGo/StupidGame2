@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import go.deyu.stupidgame2.data.model.GuessResult
 import go.deyu.stupidgame2.data.model.Suspect
-import go.deyu.stupidgame2.di.domain.GameModel
-import go.deyu.stupidgame2.di.domain.GameState
+import go.deyu.stupidgame2.domain.GameModel
+import go.deyu.stupidgame2.domain.GameState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.MutableStateFlow
