@@ -3,6 +3,7 @@ package go.deyu.stupidgame2.presentation.game
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import go.deyu.stupidgame2.data.model.Answer
 import go.deyu.stupidgame2.data.model.GuessResult
 import go.deyu.stupidgame2.data.model.Suspect
 import go.deyu.stupidgame2.domain.GameModel
@@ -62,18 +63,19 @@ class GameViewModel @Inject constructor(private val gameModel: GameModel) : View
 
     }
 
-    private suspend fun guessSuspect(suspect: Suspect) {
+    private fun guessSuspect(suspect: Suspect) {
         val screenState = state.value.screenState
         if (screenState !is GameScreenState.InProgress) return
         _state.value = state.value.copy(isLoading = true)
-        val guessResult = gameModel.requestGameOverMessage(suspect)
-        val isCorrect = suspect == screenState.gameData.answer.suspect
+        val answer:Answer = screenState.gameData.answer
+        val isCorrect = suspect == answer.suspect
         _state.value = state.value.copy(
             isLoading = false,
             screenState = GameScreenState.GameOver(
-                guessResult ?: GuessResult(
+                 GuessResult(
                     isCorrect = isCorrect,
-                    message = if (isCorrect) "猜對了" else "猜錯了"
+                    message = if (isCorrect) answer.guess_success else answer.guess_fail,
+                    fullStory = answer.full_story
                 )
             )
         )

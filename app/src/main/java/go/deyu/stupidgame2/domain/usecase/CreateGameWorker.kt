@@ -24,7 +24,7 @@ class CreateGameWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         return try {
-            val collectionRef = db.collection("stories")
+            val collectionRef = db.collection("stories_v2")
             val gameData = requestNewGameData() ?: return Result.failure()
             val result = collectionRef.add(gameData).await()
             Logger.d(TAG, "DocumentSnapshot added with ID: ${result.id}")

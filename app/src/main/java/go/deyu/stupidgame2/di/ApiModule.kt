@@ -52,7 +52,7 @@ object ApiModule {
         defaultHeaderInterceptor: Interceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
-            .readTimeout(150,TimeUnit.SECONDS)
+            .readTimeout(300,TimeUnit.SECONDS)
             .addInterceptor(defaultHeaderInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()

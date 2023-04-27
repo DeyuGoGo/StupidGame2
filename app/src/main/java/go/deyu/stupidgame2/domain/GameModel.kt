@@ -36,21 +36,6 @@ class GameModel(
         }
     }
 
-    suspend fun requestGameOverMessage(suspect: Suspect ): GuessResult? {
-        val overMessage = MessageBook.getGuessMessage(suspect.name)
-        _messageList.add(overMessage)
-        val result = requestChatUseCase(messageList)
-        return try {
-            val message = result.getOrNull()?.choices?.last()?.message!!.content
-            GuessResult(
-                isCorrect = message.contains("猜對"),
-                message = message
-            )
-        } catch (e: Exception) {
-            Logger.e("e = $e")
-            null
-        }
-    }
 }
 
 data class GameState(

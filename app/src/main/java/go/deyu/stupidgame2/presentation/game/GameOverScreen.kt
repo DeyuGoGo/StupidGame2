@@ -24,9 +24,10 @@ fun GameOverScreen(gameViewModel: GameViewModel, guessResult: GuessResult) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .background(MaterialTheme.colors.background),
+            contentAlignment = Alignment.Center
         ) {
             Column(
-                modifier = Modifier.align(Alignment.Center),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -38,6 +39,20 @@ fun GameOverScreen(gameViewModel: GameViewModel, guessResult: GuessResult) {
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(
                     text = guessResult.message,
+                    style = MaterialTheme.typography.body1,
+                    color = MaterialTheme.colors.onBackground,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "作案過程：",
+                    style = MaterialTheme.typography.h6,
+                    color = MaterialTheme.colors.onBackground
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = guessResult.fullStory,
                     style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.onBackground,
                     textAlign = TextAlign.Center,

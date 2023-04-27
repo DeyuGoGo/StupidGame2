@@ -6,5 +6,6 @@ data class Suspect(
     val alibi: String,
     val clothing: String,
     val motive: String,
-    val name: String
+    val name: String,
+    val questions: List<Question>,
 )
