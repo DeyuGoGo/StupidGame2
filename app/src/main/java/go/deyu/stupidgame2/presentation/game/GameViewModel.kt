@@ -68,7 +68,7 @@ class GameViewModel @Inject constructor(private val gameModel: GameModel) : View
         if (screenState !is GameScreenState.InProgress) return
         _state.value = state.value.copy(isLoading = true)
         val answer:Answer = screenState.gameData.answer
-        val isCorrect = suspect == answer.suspect
+        val isCorrect = suspect.name == answer.suspect.name
         _state.value = state.value.copy(
             isLoading = false,
             screenState = GameScreenState.GameOver(

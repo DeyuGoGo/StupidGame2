@@ -23,15 +23,21 @@ class CreateGameWorker @AssistedInject constructor(
     private val db = Firebase.firestore
 
     override suspend fun doWork(): Result {
-        return try {
-            val collectionRef = db.collection("stories_v2")
-            val gameData = requestNewGameData() ?: return Result.failure()
-            val result = collectionRef.add(gameData).await()
-            Logger.d(TAG, "DocumentSnapshot added with ID: ${result.id}")
-            Result.success()
-        } catch (e: Exception) {
-            Logger.e(TAG, "Error adding document", e)
-            Result.failure()
+        val collectionRef = db.collection("stories_v2")
+        val storyCount = collectionRef.get().await().documents.size
+        return when {
+            storyCount >= 10 -> {
+                Result.success()
+            }
+            else -> try {
+                val gameData = requestNewGameData() ?: return Result.failure()
+                val result = collectionRef.add(gameData).await()
+                Logger.d(TAG, "DocumentSnapshot added with ID: ${result.id}")
+                Result.success()
+            } catch (e: Exception) {
+                Logger.e(TAG, "Error adding document", e)
+                Result.failure()
+            }
         }
     }
 
