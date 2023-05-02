@@ -4,7 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import androidx.work.Constraints
 import androidx.work.NetworkType
@@ -38,7 +42,7 @@ class MainActivity : ComponentActivity() {
             .build()
         MobileAds.setRequestConfiguration(configuration)
         lifecycleScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 Logger.e("ID ${AdvertisingIdClient.getAdvertisingIdInfo(this@MainActivity).id}")
 
             }
@@ -53,12 +57,20 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
-                GameScreen(gameViewModel = gameViewModel)
+                Column {
+                    if (BuildConfig.DEBUG) {
+                        Button(onClick = { createGame() }) {
+                            Text(text = "Create Game")
+                        }
+                    }
+                    GameScreen(gameViewModel = gameViewModel, modifier = Modifier.weight(1f))
+                }
             }
         }
         createGame()
     }
-    private fun createGame (){
+
+    private fun createGame() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()

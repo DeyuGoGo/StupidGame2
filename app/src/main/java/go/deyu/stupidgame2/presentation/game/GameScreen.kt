@@ -22,7 +22,7 @@ import go.deyu.stupidgame2.presentation.util.ProgressAnimation
 import java.util.Queue
 
 @Composable
-fun GameScreen(gameViewModel: GameViewModel) {
+fun GameScreen(gameViewModel: GameViewModel , modifier: Modifier = Modifier) {
     StupidGame2Theme {
         val gameState by gameViewModel.state.collectAsState()
         val gradient = Brush.radialGradient(
@@ -34,7 +34,7 @@ fun GameScreen(gameViewModel: GameViewModel) {
             radius = 800f
         )
 
-        Box(modifier = Modifier.background(gradient)) {
+        Box(modifier = modifier.background(gradient)) {
             AnimatedVisibility(
                 visible = (!gameState.isLoading),
                 enter = fadeIn() + slideInHorizontally(),
