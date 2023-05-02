@@ -12,7 +12,7 @@ plugins {
 // For Build Number Code
 def versionMajor = 1
 def versionMinor1 = 0
-def versionMinor2 = 0
+def versionMinor2 = 1
 def versionHotfix = 0
 
 def buildNumber = 0
