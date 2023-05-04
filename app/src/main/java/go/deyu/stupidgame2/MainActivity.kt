@@ -19,7 +19,9 @@ import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.AndroidEntryPoint
+import go.deyu.stupidgame2.data.model.MessageBook
 import go.deyu.stupidgame2.domain.usecase.CreateGameWorker
+import go.deyu.stupidgame2.domain.usecase.RequestChatUseCase
 import go.deyu.stupidgame2.presentation.game.GameScreen
 import go.deyu.stupidgame2.presentation.game.GameViewModel
 import go.deyu.stupidgame2.presentation.theme.StupidGame2Theme
@@ -27,11 +29,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val gameViewModel: GameViewModel by viewModels()
+
+    @Inject
+    lateinit var requestChatUseCase: RequestChatUseCase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,13 +48,6 @@ class MainActivity : ComponentActivity() {
             .setTestDeviceIds(Collections.singletonList("6858565a-24f8-48a2-bb59-b616652dc296"))
             .build()
         MobileAds.setRequestConfiguration(configuration)
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                Logger.e("ID ${AdvertisingIdClient.getAdvertisingIdInfo(this@MainActivity).id}")
-
-            }
-
-        }
         setContent {
             StupidGame2Theme {
                 LaunchedEffect(gameViewModel.shouldCloseApp) {
@@ -67,7 +67,16 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        createGame()
+    }
+
+    private fun testGG(){
+
+        lifecycleScope.launch {
+            val startMessage = MessageBook.getNewGameMessage()
+            val result = requestChatUseCase(listOf(startMessage))
+            Logger.d("result = $result")
+        }
+
     }
 
     private fun createGame() {

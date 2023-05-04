@@ -3,11 +3,7 @@ package go.deyu.stupidgame2.presentation.game
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,10 +15,9 @@ import androidx.compose.ui.graphics.Color
 import go.deyu.stupidgame2.presentation.theme.StupidGame2Theme
 import go.deyu.stupidgame2.presentation.util.AdMobBanner
 import go.deyu.stupidgame2.presentation.util.ProgressAnimation
-import java.util.Queue
 
 @Composable
-fun GameScreen(gameViewModel: GameViewModel , modifier: Modifier = Modifier) {
+fun GameScreen(gameViewModel: GameViewModel, modifier: Modifier = Modifier) {
     StupidGame2Theme {
         val gameState by gameViewModel.state.collectAsState()
         val gradient = Brush.radialGradient(
@@ -75,7 +70,6 @@ fun GameScreen(gameViewModel: GameViewModel , modifier: Modifier = Modifier) {
                 )
             }
         }
-
-
     }
 }
+
