@@ -11,10 +11,9 @@ import kotlinx.serialization.json.Json
 class RequestNewGameUseCase() {
     suspend operator fun invoke(): GameData? {
         val  db = Firebase.firestore
-        val doc = db.collection("stories_v2").get().await().documents.first()
+        val doc = db.collection("stories_v2").get().await().documents.random()
         val story = doc.data
         val jsonString = Gson().toJson(story)
-        db.collection("stories_v2").document(doc.id).delete().await()
         return try {
             Json.decodeFromString<GameData>(jsonString)
         } catch (e: Exception) {
