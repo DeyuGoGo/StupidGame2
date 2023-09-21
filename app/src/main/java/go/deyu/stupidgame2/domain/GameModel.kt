@@ -9,13 +9,10 @@ import go.deyu.stupidgame2.domain.usecase.RequestNewGameUseCase
 import go.deyu.stupidgame2.presentation.game.GameScreenState
 
 class GameModel(
-    private val requestChatUseCase: RequestChatUseCase,
-    private val requestImageUseCase: RequestImageUseCase,
     private val requestNewGameUseCase: RequestNewGameUseCase
 ) {
 
     private val _messageList = mutableListOf<Message>()
-    private val messageList: List<Message> = _messageList
 
     fun reset() {
         _messageList.clear()

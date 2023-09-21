@@ -14,6 +14,7 @@ import go.deyu.stupidgame2.data.model.GameData
 import go.deyu.stupidgame2.data.model.MessageBook
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
+import java.util.concurrent.TimeUnit
 
 @HiltWorker
 class CreateGame10Worker @AssistedInject constructor(
@@ -31,7 +32,7 @@ class CreateGame10Worker @AssistedInject constructor(
                 val gameData = requestNewGameData() ?: return Result.failure()
                 val result = collectionRef.add(gameData).await()
                 Logger.d(TAG, "DocumentSnapshot added with ID: ${result.id}")
-                delay(5000L)
+                delay(60 * 1000L)
             }
             Result.success()
         }catch (e:Exception){

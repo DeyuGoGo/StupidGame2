@@ -35,6 +35,7 @@ import com.google.android.gms.ads.RequestConfiguration
 import dagger.hilt.android.AndroidEntryPoint
 import go.deyu.stupidgame2.domain.usecase.ClearGameWorker
 import go.deyu.stupidgame2.domain.usecase.CreateGame10Worker
+import go.deyu.stupidgame2.domain.usecase.TestWorker
 import go.deyu.stupidgame2.presentation.game.GameScreen
 import go.deyu.stupidgame2.presentation.game.GameViewModel
 import go.deyu.stupidgame2.presentation.theme.StupidGame2Theme
@@ -75,7 +76,7 @@ class MainActivity : ComponentActivity() {
                             val interactionSource2 = remember { MutableInteractionSource() }
                             val isPressed2 by interactionSource.collectIsPressedAsState()
                             Button(
-                                onClick = { clearGames() },
+                                onClick = { testGo() },
                                 modifier = Modifier
                                     .padding(8.dp),
                                 colors = ButtonDefaults.buttonColors(
@@ -167,6 +168,18 @@ class MainActivity : ComponentActivity() {
             ExistingWorkPolicy.KEEP,         // 如果已有相同名稱的工作，則保留已有的，不排入新的請求
             workRequest
         )
+    }
+
+    private fun testGo(){
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val workRequest = OneTimeWorkRequestBuilder<TestWorker>()
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(this).enqueue(workRequest)
     }
 
 }

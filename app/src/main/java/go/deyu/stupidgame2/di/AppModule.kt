@@ -63,13 +63,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideGameModel(
-        requestChatUseCase: RequestChatUseCase,
-        requestImageUseCase: RequestImageUseCase,
+
         requestNewGameUseCase: RequestNewGameUseCase
     ): GameModel {
         return GameModel(
-            requestChatUseCase,
-            requestImageUseCase,
+
             requestNewGameUseCase
         )
     }
